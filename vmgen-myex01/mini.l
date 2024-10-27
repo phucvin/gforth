@@ -32,18 +32,14 @@ char *mystrdup(const char *s)
 %}
 
 %%
-[-();,+*&|<=!]	return yytext[0];
-:=	return BECOMES;
+[-()+,;]	return yytext[0];
+>= return GTE;
 func	return FUNC;
 return	return RETURN;
 end	return END;
-var	return VAR;
 if	return IF;
 then	return THEN;
 else	return ELSE;
-while	return WHILE;
-do	return DO;
-print	return PRINT;
 [0-9]+			{ yylval.num=strtol(yytext,NULL,10); return NUM; }
 [a-zA-Z\_][a-zA-Z0-9\_]*	{ yylval.string=mystrdup(yytext); return IDENT; }
 [ \t\n]	;

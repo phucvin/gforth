@@ -65,7 +65,7 @@ int yylex();
 %}
 
 
-%token FUNC RETURN END VAR IF THEN ELSE WHILE DO BECOMES PRINT NUM IDENT
+%token FUNC RETURN END VAR IF THEN ELSE WHILE DO BECOMES PRINT NUM IDENT GTE
 
 %union {
   long num;
@@ -82,9 +82,8 @@ int yylex();
 program: program function
        | ;
 
-function: FUNC IDENT { locals=0; nonparams=0; } '(' params ')' 
-          vars                  { insert_func($2,vmcodep,locals,nonparams); } 
-          stats RETURN expr ';'
+function: FUNC IDENT { locals=0; nonparams=0; insert_func($2,vmcodep,locals,nonparams); } '(' params ')' 
+          RETURN expr ';'
           END FUNC ';'          { gen_return(&vmcodep, -adjust(locals)); }
         ;
 
@@ -92,31 +91,17 @@ params: IDENT ',' { insert_local($1); } params
       | IDENT     { insert_local($1); }
       | ;
 
-vars: vars VAR IDENT ';' { insert_local($3); nonparams++; }
-    | ;
-
-stats: stats stat ';'
-     | ;
-
-stat: IF expr THEN { gen_zbranch(&vmcodep, 0); $<instp>$ = vmcodep; }
-      stats { $<instp>$ = $<instp>4; } 
-      elsepart END IF { BB_BOUNDARY; vm_target2Cell(vmcodep, $<instp>7[-1]); }
-    | WHILE   { BB_BOUNDARY; $<instp>$ = vmcodep; } 
-      expr DO { gen_zbranch(&vmcodep, 0); $<instp>$ = vmcodep; }
-      stats END WHILE { gen_branch(&vmcodep, $<instp>2); vm_target2Cell(vmcodep, $<instp>5[-1]); }
-    | IDENT BECOMES expr	{ gen_storelocal(&vmcodep,  var_offset($1)); }
-    | PRINT expr		{ gen_print(&vmcodep); }
-    | expr                      { gen_drop(&vmcodep); }
-    ;
-
 elsepart: ELSE { gen_branch(&vmcodep, 0); $<instp>$ = vmcodep; vm_target2Cell(vmcodep, $<instp>0[-1]); }
-          stats { $$ = $<instp>2; }
+          expr { $$ = $<instp>2; }
         | { $$ = $<instp>0; }
         ;
 
 expr: term '+' term	 { gen_add(&vmcodep); }
     | term '-' term	 { gen_sub(&vmcodep); }
-    | term '<' term	 { gen_lessthan(&vmcodep); }
+    | term GTE term	 { gen_gte(&vmcodep); }
+    | IF expr THEN { gen_zbranch(&vmcodep, 0); $<instp>$ = vmcodep; }
+      expr { $<instp>$ = $<instp>4; } 
+      elsepart END IF { BB_BOUNDARY; vm_target2Cell(vmcodep, $<instp>7[-1]); }
     | term
     ;
 

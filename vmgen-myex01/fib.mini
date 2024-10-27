@@ -1,12 +1,5 @@
 func fib(n)
-  var r;
-  if n<2 then
-    r:=n;
-  else
-    r:=fib(n-1)+fib(n-2);
-  end if;
-  return r; 
-  // the language syntax (return only at end) leads to inefficient code here
+  return if n>=2 then fib(n-1)+fib(n-2) else n end if;
 end func;
 
 func main()

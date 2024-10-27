@@ -44,15 +44,10 @@ i = i1+i2;
 sub ( i1 i2 -- i )
 i = i1-i2;
 
-lessthan ( i1 i2 -- i )
-i = i1<i2;
+gte ( i1 i2 -- i )
+i = i1>=i2;
 
 lit ( #i -- i )
-
-drop ( i -- )
-
-print ( i -- )
-printf("%ld\n", i);
 
 branch ( #target -- )
 SET_IP(target);
@@ -105,9 +100,6 @@ i2=i1;
 
 loadlocal ( #ioffset -- i )
 vm_Cell2i(*(Cell *)(fp+ioffset),i);
-
-storelocal ( #ioffset i -- )
-vm_i2Cell(i,*(Cell *)(fp+ioffset));
 
 end ( i -- )
 /* SUPER_END would increment the next BB count (because IP points there);
