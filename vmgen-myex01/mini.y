@@ -65,7 +65,7 @@ int yylex();
 %}
 
 
-%token FUNC RETURN END VAR IF THEN ELSE WHILE DO BECOMES PRINT NUM IDENT GTE
+%token FUNC RETURN END VAR IF THEN ELSE WHILE DO BECOMES PRINT NUM IDENT LT
 
 %union {
   long num;
@@ -98,7 +98,7 @@ elsepart: ELSE { gen_branch(&vmcodep, 0); $<instp>$ = vmcodep; vm_target2Cell(vm
 
 expr: term '+' term	 { gen_add(&vmcodep); }
     | term '-' term	 { gen_sub(&vmcodep); }
-    | term GTE term	 { gen_gte(&vmcodep); }
+    | term '<' term	 { gen_lt(&vmcodep); }
     | IF expr THEN { gen_zbranch(&vmcodep, 0); $<instp>$ = vmcodep; }
       expr { $<instp>$ = $<instp>4; } 
       elsepart END IF { BB_BOUNDARY; vm_target2Cell(vmcodep, $<instp>7[-1]); }

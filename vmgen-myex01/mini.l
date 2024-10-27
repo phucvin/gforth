@@ -32,8 +32,7 @@ char *mystrdup(const char *s)
 %}
 
 %%
-[-()+,;]	return yytext[0];
->= return GTE;
+[-()+,<;]	return yytext[0];
 func	return FUNC;
 return	return RETURN;
 end	return END;

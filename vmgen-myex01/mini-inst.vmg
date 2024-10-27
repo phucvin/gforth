@@ -44,8 +44,8 @@ i = i1+i2;
 sub ( i1 i2 -- i )
 i = i1-i2;
 
-gte ( i1 i2 -- i )
-i = i1>=i2;
+lt ( i1 i2 -- i )
+i = i1<i2;
 
 lit ( #i -- i )
 
