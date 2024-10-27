@@ -10,5 +10,5 @@ func fib(n)
 end func;
 
 func main()
-  return fib(34);
+  return fib(40);
 end func;

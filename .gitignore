@@ -137,3 +137,5 @@ libtool
 libtool.dump
 m4/
 logs
+
+local/
