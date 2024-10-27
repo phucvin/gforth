@@ -116,13 +116,7 @@ elsepart: ELSE { gen_branch(&vmcodep, 0); $<instp>$ = vmcodep; vm_target2Cell(vm
 
 expr: term '+' term	 { gen_add(&vmcodep); }
     | term '-' term	 { gen_sub(&vmcodep); }
-    | term '*' term	 { gen_mul(&vmcodep); }
-    | term '&' term	 { gen_and(&vmcodep); }
-    | term '|' term	 { gen_or(&vmcodep); }
     | term '<' term	 { gen_lessthan(&vmcodep); }
-    | term '=' term	 { gen_equals(&vmcodep); }
-    | '!' term		 { gen_not(&vmcodep); }
-    | '-' term		 { gen_negate(&vmcodep); }
     | term
     ;
 

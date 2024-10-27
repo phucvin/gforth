@@ -44,26 +44,8 @@ i = i1+i2;
 sub ( i1 i2 -- i )
 i = i1-i2;
 
-mul ( i1 i2 -- i )
-i = i1*i2;
-
-and ( i1 i2 -- i )
-i = i1 & i2;
-
-or ( i1 i2 -- i )
-i = i1 | i2;
-
 lessthan ( i1 i2 -- i )
 i = i1<i2;
-
-equals ( i1 i2 -- i )
-i = i1==i2;
-
-not ( i1 -- i2 )
-i2 = !i1;
-
-negate ( i1 -- i2 )
-i2 = -i1;
 
 lit ( #i -- i )
 
