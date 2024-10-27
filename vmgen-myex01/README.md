@@ -7,7 +7,7 @@ Copied from vmgen-ex2 with changes:
 
 Compare with other vmgen examples:
 ```
-$ time ./mini -d fib.mini
+$ time ./mini fib.mini
 result = 102334155
 real    0m2.203s
 user    0m2.201s

@@ -10,7 +10,6 @@ gforth
 libgforth
 gforth-[dfi]*
 libgforth-*
-Makefile
 vmgen
 netlib/Makefile
 netlib/configure
