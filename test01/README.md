@@ -13,3 +13,11 @@ make
 time ./mini fib.mini
 
 > 4.2s
+
+cd ../vmgen-ex2
+
+make
+
+time ./mini fib.mini
+
+> 3.4s
