@@ -2,7 +2,11 @@ cd ..
 
 source ./install-deps.sh 
 
-gforth
+gfort-fast fib.fs
+
+39 fib .
+
+bye
 
 cd ../vmgen-ex
 
