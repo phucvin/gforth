@@ -96,10 +96,10 @@ elsepart: ELSE { gen_branch(&vmcodep, 0); $<instp>$ = vmcodep; vm_target2Cell(vm
         | { $$ = $<instp>0; }
         ;
 
-expr: term '+' term	 { gen_add(&vmcodep); }
-    | term '-' term	 { gen_sub(&vmcodep); }
-    | term '<' term	 { gen_lt(&vmcodep); }
-    | IF expr THEN { gen_zbranch(&vmcodep, 0); $<instp>$ = vmcodep; }
+expr: term '+' term	 { gen_add(&vmcodep, 0, 1, 2); }
+    | term '-' term	 { gen_sub(&vmcodep, 0, 1, 2); }
+    | term '<' term	 { gen_lt(&vmcodep, 0, 1, 2); }
+    | IF expr THEN { gen_zbranch(&vmcodep, 0, 0); $<instp>$ = vmcodep; }
       expr { $<instp>$ = $<instp>4; } 
       elsepart END IF { BB_BOUNDARY; vm_target2Cell(vmcodep, $<instp>7[-1]); }
     | term
@@ -107,8 +107,8 @@ expr: term '+' term	 { gen_add(&vmcodep); }
 
 term: '(' expr ')'
     | IDENT '(' args ')' { gen_call(&vmcodep, func_addr($1), func_calladjust($1)); }
-    | IDENT		 { gen_loadlocal(&vmcodep, var_offset($1)); }
-    | NUM		 { gen_lit(&vmcodep, $1); }
+    | IDENT		 { gen_loadlocal(&vmcodep, 0, var_offset($1)); gen_load(&vmcodep, 0); }
+    | NUM		 { gen_store(&vmcodep, 0, $1); gen_load(&vmcodep, 0); }
     ;
 
 /* missing: argument counting and checking against called function */
