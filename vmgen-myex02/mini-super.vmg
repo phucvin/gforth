@@ -1,2 +1,6 @@
 ll = loadlocal lit
-ltbranch = lt zbranch
+lllt = loadlocal lit lt
+llltb = loadlocal lit lt zbranch
+lls = loadlocal lit sub
+llsc = loadlocal lit sub call
+llb = loadlocal branch
